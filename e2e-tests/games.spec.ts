@@ -24,6 +24,17 @@ test.describe('Game Listing and Navigation', () => {
     });
   });
 
+  test('should display star ratings on game cards', async ({ page }) => {
+    await test.step('Navigate to the game listing', async () => {
+      await page.goto('/');
+    });
+
+    await test.step('Verify game cards display their star ratings', async () => {
+      const gameCards = page.getByTestId('game-card');
+      await expect(gameCards.first().getByTestId('game-rating')).toBeVisible();
+    });
+  });
+
   test('should navigate to correct game details page when clicking on a game', async ({ page }) => {
     let gameId: string | null;
     let gameTitle: string | null;
