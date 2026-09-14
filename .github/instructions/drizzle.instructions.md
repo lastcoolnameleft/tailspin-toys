@@ -45,12 +45,17 @@ import { asc, count, eq } from 'drizzle-orm';
 import type { Database } from './db';
 import { games } from '../../db/schema';
 
+/** Return every game id in deterministic title order. */
 export async function getAllGameIds(db: Database): Promise<number[]> {
   const rows = await db.select({ id: games.id }).from(games).orderBy(asc(games.title));
   return rows.map((r) => r.id);
 }
 ```
 
+- Add TSDoc/JSDoc to every exported function in `db/` and `src/lib/`.
+- Describe the function's purpose, each parameter, and the return value. For data-access helpers, explicitly document the injectable `db` parameter and what `null` or an empty collection means.
+- Keep exported function parameters and return types explicit. Prefer a concise one-line description when the signature is self-explanatory; expand it with `@param` and `@returns` tags when the behavior or contract is not obvious.
+- Comments should explain intent, invariants, or a non-obvious SQL/data decision. Do not restate the query or code below the comment.
 - Always `order by` a stable column (title) so static builds are deterministic.
 - Map raw rows to the app-facing `Game`/`Publisher`/`Category` types in one place; don't leak Drizzle row shapes into components.
 - Keep ordering/lookup logic in `games.ts`, not in pages.
