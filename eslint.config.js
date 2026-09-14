@@ -39,5 +39,13 @@ export default [
     languageOptions: {
       parser: tseslint.parser,
     },
+    rules: {
+      // Keep exported TypeScript APIs explicit and easy to review.
+      "@typescript-eslint/consistent-type-imports": ["error", { prefer: "type-imports" }],
+      "@typescript-eslint/explicit-module-boundary-types": [
+        "error",
+        { allowTypedFunctionExpressions: true },
+      ],
+    },
   },
 ];
